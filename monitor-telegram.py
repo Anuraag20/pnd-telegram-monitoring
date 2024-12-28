@@ -23,6 +23,8 @@ WEBHOOK_URL = ''
 BASE_DIR = Path(__file__).parent.absolute()
 
 
+
+
 async def get_name(event) -> tuple[str, str]:
     
     
@@ -49,29 +51,33 @@ async def get_name(event) -> tuple[str, str]:
 
 async def new_message_handler(event: events.NewMessage):
     
-    global WEBHOOK_URL
+    try:
+        global WEBHOOK_URL
 
-    if not event.is_channel:
-       return
-    
+        if not event.is_channel:
+           return
+        
 
-    unique_identifier, name = await get_name(event)
-    data = {
-            'forum': {
-                'unique_identifier': unique_identifier,
-                'content_type': 13,
-                'name': name
-            },
-            'content': event.message.message,
-            'sent_at': str(event.message.date)
-    }
+        unique_identifier, name = await get_name(event)
+        data = {
+                'forum': {
+                    'unique_identifier': unique_identifier,
+                    'content_type': 13,
+                    'name': name
+                },
+                'content': event.message.message,
+                'sent_at': str(event.message.date)
+        }
 
-    response = requests.post(WEBHOOK_URL, json = data)
+        response = requests.post(WEBHOOK_URL, json = data)
 
-    if response.ok:
-        print('Message receieved successfully!')
-    else:
-        print('Something went wrong!')
+        if response.ok:
+            print('Message receieved successfully!')
+        else:
+            print('Something went wrong!')
+
+    except Exception as e:
+        print(e)
 
 
 
@@ -136,5 +142,4 @@ if __name__ == '__main__':
     
     cleanup()
 
-    print('Exit here')
 
