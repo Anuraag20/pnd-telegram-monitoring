@@ -1,4 +1,4 @@
-
+import argparse
 import asyncio
 from telethon import (
         TelegramClient, 
@@ -134,10 +134,18 @@ def main(client: TelegramClient) -> None:
 
 if __name__ == '__main__':
     
-   
+    
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--setup", action = "store_true", help="If present, the module exits after setup") 
+    args = parser.parse_args()
+
     client = setup()
+    
 
     with client:
+        if args.setup:
+            exit()
+   
         main(client)
     
     cleanup()
