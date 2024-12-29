@@ -62,7 +62,7 @@ async def new_message_handler(event: events.NewMessage):
         data = {
                 'forum': {
                     'unique_identifier': unique_identifier,
-                    'content_type': 13,
+                    'content_type': 'telegramchannel',
                     'name': name
                 },
                 'content': event.message.message,
